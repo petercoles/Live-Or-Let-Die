@@ -7,7 +7,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Auth\AuthManager as Auth;
 use Illuminate\Session\Store as Session;
 
-class LiveOrLetDie
+class SessionTimeout
 {
     protected $session;
 
