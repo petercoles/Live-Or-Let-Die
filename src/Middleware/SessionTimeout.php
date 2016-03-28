@@ -59,16 +59,36 @@ class SessionTimeout
         return $next($request);
     }
 
+    /**
+     * Determine whether the session should be ended due to timeout or frontend request
+     * We whitelist the login page from this assessment
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return boolean 
+     */
     protected function endSession($request)
     {
         return !$request->is($this->login) && ($this->timedOut() || $request->is('session/end'));
     }
 
+    /**
+     * Calculate whether timeout has occurred
+     * If there's no data to do this we assume that it has
+     *
+     * @return boolean 
+     */
     protected function timedOut()
     {
         return !$this->session->has('last_activity') || (time() - $this->session->get('last_activity')) > $this->timeout;
     }
 
+    /**
+     * Logout and clear our session var - one or both of which may be redundant, but not harmful
+     * Then, for our package routes compose a suitable response, anf for other routes continue processing as normal
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return mixed 
+     */
     protected function terminateAndRespond($request, $next)
     {
         $this->auth->logout();
