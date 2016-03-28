@@ -6,12 +6,11 @@
 
 ## Introduction
 
-As we build sites with more-and-more features executed and managed directly in the user's browser, the connection between browser and server becomes increasingly strained. While our users are beavering away in their browser, we risk our server-side Laravel application quietly terminating the associated sessions, causing ajax-powered actions to fail unexpectedly and in ways that are inexplicable and difficult to understand for our users.
+As we build sites with more-and-more features executed and managed directly in the user's browser, the connection between browser and server becomes increasingly strained. While our users are beavering away in their browser, we risk our server-side Laravel application quietly terminating the associated sessions, logging them out and causing ajax-powered actions to fail unexpectedly and in ways that are inexplicable and difficult to understand for our users.
 
-One way to address this is to lengthen our sessions. Even ignoring the security implications of this, it only mitigates
-and doesn't solve the problems.
+One way to address this is to lengthen our sessions. Even ignoring the security implications of this, it only mitigates the problem but doesn't solve it.
 
-This package extends Laravel by injecting three routes that can be used by frontend applications to work with remote Laravel sessions.
+This package extends Laravel by injecting three routes that can be used by frontend applications to work with remote Laravel sessions. The can be used to see for how much longer an authentication session is last, and to extend or end it in response to broswer-based actions that might otherwise go unnoticed by our server.
 
 ## Installation
 
