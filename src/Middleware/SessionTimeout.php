@@ -15,6 +15,8 @@ class SessionTimeout
 
     protected $login;
 
+    protected $logout;
+
     protected $auth;
 
     public function __construct(Session $session, Config $config, Auth $auth)
