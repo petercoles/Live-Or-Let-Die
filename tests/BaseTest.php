@@ -66,5 +66,6 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         $this->config = m::mock('\\Illuminate\\Config\\Repository');
         $this->config->shouldReceive('get')->with('session.lifetime')->andReturn(30);
         $this->config->shouldReceive('get')->with('liveorletdie.login', 'login')->andReturn('login');
+        $this->config->shouldReceive('get')->with('liveorletdie.logout', 'logout')->andReturn('logout');
     }
 }

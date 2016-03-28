@@ -31,7 +31,7 @@ then add the service provider to the providers entry in your config/app.php file
     ],
 ```
 
-then add the middleware, "\PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class", to the web (or whatever other group you're using for middleware) in your app/Http/Kernal.php file. For example:
+then add the middleware, "\PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class", to the web (or whatever other middleware group you're using for web requests) in your app/Http/Kernal.php file. For example:
 
 ```
     protected $middlewareGroups = [
@@ -51,7 +51,7 @@ This will keep your session alive for normal web requests. If you use a differen
 
 ## Configuration
 
-If, and only if, your login route is called something other than 'login', then publish the config file and put your login route in there. Publishing is done by executing the following artisan command in your terminal.
+If, and only if, your login or logout routes are called something other than 'login' and 'logout', then publish the config file and put your routes in there. Publishing is done by executing the following artisan command in your terminal.
 
 ```
 php artisan vendor:publish --provider="PeterColes\LiveOrLetDie\Providers\LiveOrLetDieServiceProvider"

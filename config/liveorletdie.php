@@ -4,13 +4,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Login Route
+    | Authentication Routes
     |--------------------------------------------------------------------------
     |
-    | The route to your login page.
+    | The routes to your authentication pages.
     |
     */
 
     'login' => 'login'
+    'logout' => 'logout'
 
 ];

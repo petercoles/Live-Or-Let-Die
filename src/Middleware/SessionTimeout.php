@@ -24,6 +24,7 @@ class SessionTimeout
         $this->timeout = $config->get('session.lifetime') * 60;
 
         $this->login = $config->get('liveorletdie.login', 'login');
+        $this->logout = $config->get('liveorletdie.logout', 'logout');
 
         $this->auth = $auth;
     }
@@ -38,7 +39,7 @@ class SessionTimeout
     public function handle($request, Closure $next)
     {
         // don't interfer with normal logout requests
-        if ($request->is('logout')) {
+        if ($request->is($this->logout)) {
             $this->session->forget('last_activity');
             return $next($request);
         }
