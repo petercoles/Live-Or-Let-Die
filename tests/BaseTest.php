@@ -4,12 +4,12 @@ use Mockery as m;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
-    protected function init($route, $lastActivity, $guest = false, $logout = false)
+    protected function init($route, $lastActivity, $forget, $logout)
     {
         $this->request($route);
-        $this->session($lastActivity);
+        $this->session($lastActivity, $forget);
         $this->config();
-        $this->auth($guest, $logout);
+        $this->auth($logout);
 
         $this->sessionTimeout = new PeterColes\LiveOrLetDie\Middleware\SessionTimeout(
             $this->session, $this->config, $this->auth
@@ -34,7 +34,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function session($lastActivity)
+    protected function session($lastActivity, $forget)
     {
         $this->session = m::mock('\\Illuminate\\Session\\Store');
 
@@ -45,14 +45,16 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             $this->session->shouldReceive('has')->with('last_activity')->andReturn(false);
         }
 
+        if ($forget) {
+            $this->session->shouldReceive('forget')->with('last_activity')->once();
+        }
+
         $this->session->shouldReceive('put');
     }
 
-    protected function auth($guest, $logout)
+    protected function auth($logout)
     {
         $this->auth = m::mock('\\Illuminate\\Auth\\AuthManager');
-
-        $this->auth->shouldReceive('guest')->andReturn($guest);
 
         if ($logout) {
             $this->auth->shouldReceive('logout')->once();

@@ -17,7 +17,7 @@ class PackageRoutesWithCurrentSession extends BaseTest
     public function testRemainingRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('session/remaining', $inRangeTime, false);
+        $this->init('session/remaining', $inRangeTime, false, false);
 
         $this->assertEquals([600, 200], $this->sessionTimeout->handle($this->request, $this->next));
     }
@@ -25,7 +25,7 @@ class PackageRoutesWithCurrentSession extends BaseTest
     public function testPingRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('session/ping', $inRangeTime, false);
+        $this->init('session/ping', $inRangeTime, false, false);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
@@ -33,7 +33,7 @@ class PackageRoutesWithCurrentSession extends BaseTest
     public function testEndRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('session/end', $inRangeTime, false, true);
+        $this->init('session/end', $inRangeTime, true, true);
 
         $this->assertEquals(['session ended', 200], $this->sessionTimeout->handle($this->request, $this->next));
     }

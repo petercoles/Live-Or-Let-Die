@@ -17,7 +17,15 @@ class OrdinaryPagesWithCurrentSession extends BaseTest
     public function testLoginRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('login', $inRangeTime, false);
+        $this->init('login', $inRangeTime, false, false);
+
+        $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
+    }
+
+    public function testLogoutRoute()
+    {
+        $inRangeTime = time() - 20 * 60;
+        $this->init('logout', $inRangeTime, true, false);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
@@ -25,7 +33,7 @@ class OrdinaryPagesWithCurrentSession extends BaseTest
     public function testOtherPageRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('foo', $inRangeTime, false);
+        $this->init('foo', $inRangeTime, false, false);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }

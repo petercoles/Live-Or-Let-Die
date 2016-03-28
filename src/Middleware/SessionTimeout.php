@@ -37,16 +37,18 @@ class SessionTimeout
      */
     public function handle($request, Closure $next)
     {
+        // don't interfer with normal logout requests
+        if ($request->is('logout')) {
+            $this->session->forget('last_activity');
+            return $next($request);
+        }
+
         if ($this->endSession($request)) {
-
-            return $this->terminateAndRespond($request);
-
+            return $this->terminateAndRespond($request, $next);
         }
 
         if ($request->is('session/remaining')) {
-
             return response($this->timeout - (time() - $this->session->get('last_activity')));
-
         }
 
         $this->session->put('last_activity', time());
@@ -56,7 +58,7 @@ class SessionTimeout
 
     protected function endSession($request)
     {
-        return !$request->is($this->login) && ($this->auth->guest() || $this->timedOut() || $request->is('session/end'));
+        return !$request->is($this->login) && ($this->timedOut() || $request->is('session/end'));
     }
 
     protected function timedOut()
@@ -64,9 +66,10 @@ class SessionTimeout
         return !$this->session->has('last_activity') || (time() - $this->session->get('last_activity')) > $this->timeout;
     }
 
-    protected function terminateAndRespond($request)
+    protected function terminateAndRespond($request, $next)
     {
         $this->auth->logout();
+        $this->session->forget('last_activity');
 
         if ($request->is('session/end')) {
             return response('session ended', 200);
@@ -80,7 +83,6 @@ class SessionTimeout
             return response('trying to keep alive a session that has already expired', 400);
         }
 
-        return redirect($this->login);
+        return $next($request);
     }
 }
-
