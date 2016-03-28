@@ -10,7 +10,7 @@ As we build sites with more-and-more features executed and managed directly in t
 
 One way to address this is to lengthen our sessions. Even ignoring the security implications of this, it only mitigates the problem but doesn't solve it.
 
-This package extends Laravel by injecting three routes that can be used by frontend applications to work with remote Laravel sessions. The can be used to see for how much longer an authentication session is last, and to extend or end it in response to broswer-based actions that might otherwise go unnoticed by our server.
+This package extends Laravel by injecting three routes that can be used by frontend applications to work with remote Laravel sessions. The can be used to see for how much longer an authentication session is last, and to extend or end it in response to browser-based actions that might otherwise go unnoticed by our server.
 
 ## Installation
 
