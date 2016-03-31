@@ -25,7 +25,7 @@ class OrdinaryPagesWithSessionExpired extends BaseTest
     public function testLoginRoute()
     {
         $outOfRangeTime = time() - 40 * 60;
-        $this->init('login', $outOfRangeTime, false, false);
+        $this->init('login', $outOfRangeTime, false, false, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
@@ -33,15 +33,23 @@ class OrdinaryPagesWithSessionExpired extends BaseTest
     public function testLogoutRoute()
     {
         $outOfRangeTime = time() - 40 * 60;
-        $this->init('logout', $outOfRangeTime, true, false);
+        $this->init('logout', $outOfRangeTime, true, false, false);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
 
-    public function testOtherPageRoute()
+    public function testOtherLoggedInPageRoute()
     {
         $outOfRangeTime = time() - 40 * 60;
-        $this->init('foo', $outOfRangeTime, true, true);
+        $this->init('foo', $outOfRangeTime, true, true, false);
+
+        $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
+    }
+
+    public function testOtherLoggedOutPageRoute()
+    {
+        $outOfRangeTime = time() - 40 * 60;
+        $this->init('foo', $outOfRangeTime, true, true, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }

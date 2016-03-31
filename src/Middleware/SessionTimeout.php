@@ -46,14 +46,19 @@ class SessionTimeout
             return $next($request);
         }
 
+        // check if we should the authenticated session to end
+        // and if yes, terminate it
         if ($this->endSession($request)) {
             return $this->terminateAndRespond($request, $next);
         }
 
+        // if we just want the time remaining claculate and return that
+        // this will stop any further processing, including preventing unintended extension of the underlying session
         if ($request->is('session/remaining')) {
             return response($this->timeout - (time() - $this->session->get('last_activity')));
         }
 
+        // for all other requests, including pings to extend the session, we update our timer and continue normally
         $this->session->put('last_activity', time());
 
         return $next($request);
@@ -72,14 +77,14 @@ class SessionTimeout
     }
 
     /**
-     * Calculate whether timeout has occurred
-     * If there's no data to do this we assume that it has
+     * Determine whether timeout has occurred or been forced by other activity on the site
+     * If there's no data to do the timeout check, then we assume the session has been otherwise ended
      *
      * @return boolean 
      */
     protected function timedOut()
     {
-        return !$this->session->has('last_activity') || (time() - $this->session->get('last_activity')) > $this->timeout;
+        return !$this->session->has('last_activity') || (time() - $this->session->get('last_activity')) > $this->timeout || $this->auth->guest();
     }
 
     /**

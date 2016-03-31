@@ -24,21 +24,28 @@ class OrdinaryPagesWithNoSession extends BaseTest
      */
     public function testLoginRoute()
     {
-        $this->init('login', null, false, false);
+        $this->init('login', null, false, false, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
 
     public function testLogoutRoute()
     {
-        $this->init('logout', null, true, false);
+        $this->init('logout', null, true, null, null);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
 
-    public function testOtherPageRoute()
+    public function testOtherLoggedInPageRoute()
     {
-        $this->init('foo', null, true, true);
+        $this->init('foo', null, true, true, true);
+
+        $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
+    }
+
+    public function testOtherLoggedOutPageRoute()
+    {
+        $this->init('bar', null, true, true, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
