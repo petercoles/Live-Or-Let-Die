@@ -61,7 +61,7 @@ php artisan vendor:publish --provider="PeterColes\LiveOrLetDie\Providers\LiveOrL
 This package makes available three routes designed for use by ajax calls to enable frontend applications to work with remote Laravel sessions:
 + `session/remaining` returns the number of seconds remaininig in the current session, without affecting time remaining
 + `session/ping` can be used to extend the session length for events that might not otherwise be notified to the remote server, e.g. clicking on javascript managed tabs
-+ `session/ends` allows the frontend to request termination of the remote session.
++ `session/end` allows the frontend to request termination of the remote session.
 
 These routes are injected automatically - there's no need for you to add them to your routes file.
 
