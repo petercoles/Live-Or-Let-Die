@@ -17,7 +17,7 @@ class OrdinaryPagesWithCurrentSession extends BaseTest
     public function testLoginRoute()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('login', $inRangeTime, false, false, true);
+        $this->init('login', $inRangeTime, true, false, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }

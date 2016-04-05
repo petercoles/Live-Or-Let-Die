@@ -25,7 +25,7 @@ class OrdinaryPagesWithSessionExpired extends BaseTest
     public function testLoginRoute()
     {
         $outOfRangeTime = time() - 40 * 60;
-        $this->init('login', $outOfRangeTime, false, false, true);
+        $this->init('login', $outOfRangeTime, true, false, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }

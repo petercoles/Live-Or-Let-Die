@@ -40,7 +40,7 @@ class SessionTimeout
      */
     public function handle($request, Closure $next)
     {
-        // don't interfer with normal logout requests
+        // don't interfere with normal logout requests
         if ($request->is($this->logout)) {
             $this->session->forget('last_activity');
             return $next($request);
@@ -59,9 +59,27 @@ class SessionTimeout
         }
 
         // for all other requests, including pings to extend the session, we update our timer and continue normally
-        $this->session->put('last_activity', time());
+        $this->updateActivityCounter($request);
 
-        return $next($request);
+        $response = $next($request);
+
+        $this->afterRequest($request);
+
+        return $response;
+    }
+
+    /**
+     * After the request has been processed, check if it was for login
+     * and if so and successful initialise the last_activity timer
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function afterRequest($request)
+    {
+        if ($request->is($this->login) && !$this->auth->guest()) {
+            $this->session->put('last_activity', time());
+        }
     }
 
     /**
@@ -91,8 +109,9 @@ class SessionTimeout
      * Logout and clear our session var - one or both of which may be redundant, but not harmful
      * Then, for our package routes compose a suitable response, anf for other routes continue processing as normal
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return mixed 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Closure  $next
+     * @return mixed
      */
     protected function terminateAndRespond($request, $next)
     {
@@ -112,5 +131,22 @@ class SessionTimeout
         }
 
         return $next($request);
+    }
+
+    /**
+     * Update the counter 
+     * Normally we wouldn't get here unless we are logged in
+     * But we whitelisted the login page so need to handle that
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function updateActivityCounter($request)
+    {
+        if ($request->is($this->login)) {
+            $this->session->forget('last_activity');
+        } else {
+            $this->session->put('last_activity', time());
+        }
     }
 }

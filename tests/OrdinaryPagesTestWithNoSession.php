@@ -24,7 +24,7 @@ class OrdinaryPagesWithNoSession extends BaseTest
      */
     public function testLoginRoute()
     {
-        $this->init('login', null, false, false, true);
+        $this->init('login', null, true, false, true);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
