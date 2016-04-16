@@ -5,6 +5,7 @@ namespace PeterColes\LiveOrLetDie\Middleware;
 use Closure;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Auth\AuthManager as Auth;
+use Illuminate\Http\Request;
 use Illuminate\Session\Store as Session;
 
 class SessionTimeout
@@ -38,7 +39,7 @@ class SessionTimeout
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         // don't interfere with normal logout requests
         if ($request->is($this->logout)) {
@@ -75,7 +76,7 @@ class SessionTimeout
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    protected function afterRequest($request)
+    protected function afterRequest(Request $request)
     {
         if ($request->is($this->login) && !$this->auth->guest()) {
             $this->session->put('last_activity', time());
@@ -89,7 +90,7 @@ class SessionTimeout
      * @param  \Illuminate\Http\Request $request
      * @return boolean 
      */
-    protected function endSession($request)
+    protected function endSession(Request $request)
     {
         return !$request->is($this->login) && ($this->timedOut() || $request->is('session/end'));
     }
@@ -113,7 +114,7 @@ class SessionTimeout
      * @param  Closure  $next
      * @return mixed
      */
-    protected function terminateAndRespond($request, $next)
+    protected function terminateAndRespond(Request $request, Closure $next)
     {
         $this->auth->logout();
         $this->session->forget('last_activity');
@@ -141,7 +142,7 @@ class SessionTimeout
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    protected function updateActivityCounter($request)
+    protected function updateActivityCounter(Request $request)
     {
         if ($request->is($this->login)) {
             $this->session->forget('last_activity');
