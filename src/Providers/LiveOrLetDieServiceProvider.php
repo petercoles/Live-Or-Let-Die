@@ -23,7 +23,7 @@ class LiveOrLetDieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! $this->app->routesAreCached()) {
+        if (!$this->app->routesAreCached()) {
             require __DIR__.'/../routes.php';
         }
 
