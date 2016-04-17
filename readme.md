@@ -30,23 +30,17 @@ then add the service provider to the providers entry in your config/app.php file
     ],
 ```
 
-then add the middleware, "\PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class", to the web (or whatever other middleware group you're using for web requests) in your app/Http/Kernal.php file. For example:
+the middleware, "\PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class", will be added automatically to the web routes group and will be applied to all routes that it contains. If you use a different group for your ajax requests, then it may be added to that group in your app/Http/Kernal.php file, or wherever you have defined it. For example:
 
 ```
     protected $middlewareGroups = [
-        'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+        'myMiddleware' => [
+            ...
             \PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class,
         ],
-
-        ...
     ];
 ```
-This will keep your session alive for normal web requests. If you use a different group for your ajax requests, include it in there. But don't include it for stateless requests, e.g. API calls.
+However, this middleware should not be included for stateless requests, e.g. API calls.
 
 ## Configuration
 

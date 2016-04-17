@@ -3,6 +3,7 @@
 namespace PeterColes\LiveOrLetDie\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\Router;
 
 class LiveOrLetDieServiceProvider extends ServiceProvider
 {
@@ -21,14 +22,19 @@ class LiveOrLetDieServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Router $router)
     {
-        if (!$this->app->routesAreCached()) {
+        // load package routes
+        if (! $this->app->routesAreCached()) {
             require __DIR__.'/../routes.php';
         }
 
+        // make config file available if needed
         $this->publishes([
             __DIR__.'/../../config/liveorletdie.php' => config_path('liveorletdie.php'),
         ]);
+
+        // register package middleware
+        $router->pushMiddlewareToGroup('web', \PeterColes\LiveOrLetDie\Middleware\SessionTimeout::class);
     }
 }
