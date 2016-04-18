@@ -4,7 +4,7 @@ use Mockery as m;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
-    public function setup()
+    public function setUp()
     {
         $this->next = function() { return 'closure'; };
     }
