@@ -4,16 +4,6 @@ use Mockery as m;
 
 class PackageRoutesWithCurrentSession extends BaseTest
 {
-    public function setup()
-    {
-        $this->next = function() { return 'closure'; };
-    }
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
     public function testRemainingRouteWhileLoggedIn()
     {
         $inRangeTime = time() - 20 * 60;

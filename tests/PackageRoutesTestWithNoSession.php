@@ -4,16 +4,6 @@ use Mockery as m;
 
 class PackageRoutesWithNoSession extends BaseTest
 {
-    public function setup()
-    {
-        $this->next = function() { return 'closure'; };
-    }
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
     public function testRemainingRoute()
     {
         $this->init('session/remaining', null, true, true, true);

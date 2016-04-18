@@ -4,6 +4,16 @@ use Mockery as m;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
+    public function setup()
+    {
+        $this->next = function() { return 'closure'; };
+    }
+
+    public function tearDown()
+    {
+        m::close();
+    }
+
     protected function init($route, $lastActivity, $forget, $logout, $guest)
     {
         $this->request($route);

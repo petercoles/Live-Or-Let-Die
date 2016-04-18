@@ -6,16 +6,6 @@ use Mockery as m;
 
 class OrdinaryPagesWithSessionExpired extends BaseTest
 {
-    public function setup()
-    {
-        $this->next = function() { return 'closure'; };
-    }
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
     /*
      * Normally an expired session will cause all normal
      * routes to redirect to the login route. The login
