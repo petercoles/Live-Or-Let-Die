@@ -26,7 +26,7 @@ class LiveOrLetDieServiceProvider extends ServiceProvider
     {
         // load package routes
         if (!$this->app->routesAreCached()) {
-            require __DIR__.'/../routes.php';
+            require __DIR__.'/../../routes.php';
         }
 
         // make config file available if needed
