@@ -12,6 +12,18 @@ class OrdinaryPagesWithCurrentSession extends BaseTest
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
     }
 
+    // Tests that the after middleware is triggered on the post login route
+    public function testLogin()
+    {
+        $inRangeTime = time() - 20 * 60;
+        $this->init('login', $inRangeTime, true, false, false);
+
+        $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
+
+        $this->session->shouldReceive('put')->with('last_activity');
+        $this->addToAssertionCount(1);
+    }
+
     public function testLogoutRoute()
     {
         $inRangeTime = time() - 20 * 60;
