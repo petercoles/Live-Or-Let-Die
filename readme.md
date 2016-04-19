@@ -45,7 +45,7 @@ However, this middleware should not be included for stateless requests, e.g. API
 
 ## Configuration
 
-If, and only if, your login or logout routes are called something other than 'login' and 'logout', then publish the config file and put your routes in there. Publishing is done by executing the following artisan command in your terminal.
+If, and only if, your login or your logout route is called something other than 'login' and 'logout', then publish the config file and put your routes in there. Publishing is done by executing the following artisan command in your terminal.
 
 ```
 php artisan vendor:publish --provider="PeterColes\LiveOrLetDie\Providers\LiveOrLetDieServiceProvider"
