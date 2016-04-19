@@ -2,7 +2,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/badges/build.png?b=master)](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/build-status/master)
+[![Build Status](https://travis-ci.org/petercoles/Live-Or-Let-Die.svg?branch=master)](https://travis-ci.org/petercoles/Live-Or-Let-Die)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 ## Introduction
