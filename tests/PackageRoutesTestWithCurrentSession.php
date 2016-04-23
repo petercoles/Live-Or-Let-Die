@@ -9,8 +9,8 @@ class PackageRoutesWithCurrentSession extends BaseTest
         $inRangeTime = time() - 20 * 60;
         $this->init('session/remaining', $inRangeTime, false, false, false);
 
-        $this->assertEquals(200, $this->sessionTimeout->handle($this->request, $this->next)[1]);
         $this->assertGreaterThanOrEqual(599, $this->sessionTimeout->handle($this->request, $this->next)[0]);
+        $this->assertEquals(200, $this->sessionTimeout->handle($this->request, $this->next)[1]);
     }
 
     public function testRemainingRouteWhileLoggedOut()
