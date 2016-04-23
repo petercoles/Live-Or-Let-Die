@@ -70,21 +70,6 @@ class SessionTimeout
     }
 
     /**
-     * After the request has been processed, check if it was for actually
-     * logging in and if not, i.e. redirect ot login page only, unset the
-     * last_activity timer.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    protected function afterRequest(Request $request)
-    {
-        if ($request->is($this->login) && $this->auth->guest()) {
-            $this->session->forget('last_activity');
-        }
-    }
-
-    /**
      * Determine whether the session should be ended due to timeout or frontend request
      * We whitelist the login page from this assessment
      *
@@ -133,5 +118,20 @@ class SessionTimeout
         }
 
         return $next($request);
+    }
+
+    /**
+     * After the request has been processed, check if it was for actually
+     * logging in and if not, i.e. redirect ot login page only, unset the
+     * last_activity timer.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function afterRequest(Request $request)
+    {
+        if ($request->is($this->login) && $this->auth->guest()) {
+            $this->session->forget('last_activity');
+        }
     }
 }
