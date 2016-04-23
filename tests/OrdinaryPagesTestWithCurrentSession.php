@@ -16,7 +16,7 @@ class OrdinaryPagesWithCurrentSession extends BaseTest
     public function testLogin()
     {
         $inRangeTime = time() - 20 * 60;
-        $this->init('login', $inRangeTime, true, false, false);
+        $this->init('login', $inRangeTime, false, false, false);
 
         $this->assertEquals('closure', $this->sessionTimeout->handle($this->request, $this->next));
 

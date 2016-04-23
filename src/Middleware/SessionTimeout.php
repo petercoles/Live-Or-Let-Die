@@ -60,7 +60,7 @@ class SessionTimeout
         }
 
         // for all other requests, including pings to extend the session, we update our timer and continue normally
-        $this->updateActivityCounter($request);
+        $this->session->put('last_activity', time());
 
         $response = $next($request);
 
@@ -70,16 +70,17 @@ class SessionTimeout
     }
 
     /**
-     * After the request has been processed, check if it was for login
-     * and if so and successful initialise the last_activity timer
+     * After the request has been processed, check if it was for actually
+     * logging in and if not, i.e. redirect ot login page only, unset the
+     * last_activity timer.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function afterRequest(Request $request)
     {
-        if ($request->is($this->login) && !$this->auth->guest()) {
-            $this->session->put('last_activity', time());
+        if ($request->is($this->login) && $this->auth->guest()) {
+            $this->session->forget('last_activity');
         }
     }
 
@@ -132,22 +133,5 @@ class SessionTimeout
         }
 
         return $next($request);
-    }
-
-    /**
-     * Update the counter 
-     * Normally we wouldn't get here unless we are logged in
-     * But we whitelisted the login page so need to handle that
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     */
-    protected function updateActivityCounter(Request $request)
-    {
-        if ($request->is($this->login)) {
-            $this->session->forget('last_activity');
-        } else {
-            $this->session->put('last_activity', time());
-        }
     }
 }
