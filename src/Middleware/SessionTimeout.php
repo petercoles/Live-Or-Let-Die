@@ -93,8 +93,8 @@ class SessionTimeout
     }
 
     /**
-     * Logout and clear our session var - one or both of which may be redundant, but not harmful
-     * Then, for our package routes compose a suitable response, anf for other routes continue processing as normal
+     * Logout and clear our the last_activity timer - one or both of which actions may be redundant, but not harmful
+     * Then, for our package routes, compose a suitable response, and for other routes continue processing as normal
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Closure  $next
