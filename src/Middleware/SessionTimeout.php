@@ -70,6 +70,17 @@ class SessionTimeout
     }
 
     /**
+     * Determine whether the user is authenticating, i.e. logging in or signing up
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return boolean 
+     */
+    protected function authenticating(Request $request)
+    {
+        return $request->is($this->login) || $request->is('register');
+    }
+
+    /**
      * Determine whether the session should be ended due to timeout or frontend request
      * We whitelist the login page from this assessment
      *
@@ -78,7 +89,7 @@ class SessionTimeout
      */
     protected function endSession(Request $request)
     {
-        return !$request->is($this->login) && ($this->timedOut() || $request->is('session/end'));
+        return !$this->authenticating($request) && ($this->timedOut() || $request->is('session/end'));
     }
 
     /**
@@ -122,7 +133,7 @@ class SessionTimeout
 
     /**
      * After the request has been processed, check if it was for actually
-     * logging in and if not, i.e. redirect ot login page only, unset the
+     * authenticating and if not, i.e. redirect to login page and unset the
      * last_activity timer.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -130,7 +141,7 @@ class SessionTimeout
      */
     protected function afterRequest(Request $request)
     {
-        if ($request->is($this->login) && $this->auth->guest()) {
+        if ($this->authenticating($request) && $this->auth->guest()) {
             $this->session->forget('last_activity');
         }
     }

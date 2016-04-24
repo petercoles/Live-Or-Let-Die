@@ -32,6 +32,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
 
         $candidates = [
             'login',
+            'register',
             'logout',
             'foo',
             'session/remaining',
