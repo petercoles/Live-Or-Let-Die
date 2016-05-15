@@ -1,5 +1,6 @@
 # Live or Let Die for Laravel
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b8661cda-dfcc-4ca1-807d-73f8e78f11fd/mini.png)](https://insight.sensiolabs.com/projects/b8661cda-dfcc-4ca1-807d-73f8e78f11fd)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/petercoles/Live-Or-Let-Die/?branch=master)
 [![Build Status](https://travis-ci.org/petercoles/Live-Or-Let-Die.svg?branch=master)](https://travis-ci.org/petercoles/Live-Or-Let-Die)
