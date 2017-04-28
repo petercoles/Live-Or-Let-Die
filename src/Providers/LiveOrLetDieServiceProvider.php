@@ -25,9 +25,7 @@ class LiveOrLetDieServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         // load package routes
-        if (!$this->app->routesAreCached()) {
-            require __DIR__.'/../../routes.php';
-        }
+        $this->loadRoutesFrom(__DIR__.'/../../routes.php');
 
         // make config file available if needed
         $this->publishes([
